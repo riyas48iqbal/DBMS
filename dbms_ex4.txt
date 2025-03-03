@@ -1,0 +1,710 @@
+<pre>Database changed
+mysql&gt; show tables
+    -&gt; ;
++-------------------+
+| Tables_in_24mca44 |
++-------------------+
+| EMPLOYEE          |
+| course            |
+| department        |
+| employee          |
+| orders            |
+| persons           |
+| student           |
++-------------------+
+7 rows in set (0.00 sec)
+
+mysql&gt; DESC EMPLOYEE;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| ID          | varchar(5)    | YES  |     | NULL    |       |
+| Dept_ID     | int           | YES  |     | NULL    |       |
+| Name        | varchar(15)   | YES  |     | NULL    |       |
+| Designation | varchar(15)   | YES  |     | NULL    |       |
+| Basic       | decimal(10,2) | YES  |     | NULL    |       |
+| Gender      | varchar(1)    | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql&gt; INSERT INTO Employee (ID, DeptID, Name, Designation, Basic, Gender) VALUES
+    -&gt; (101, 1, &apos;Ram&apos;, &apos;Typist&apos;, 2000, &apos;M&apos;),
+    -&gt; (102, 2, &apos;Arun&apos;, &apos;Analyst&apos;, 6000, &apos;M&apos;),
+    -&gt; (121, 1, &apos;Ruby&apos;, &apos;Typist&apos;, 2010, &apos;F&apos;),
+    -&gt; (156, 3, &apos;Mary&apos;, &apos;Manager&apos;, 4500, &apos;F&apos;),
+    -&gt; (123, 2, &apos;Mridula&apos;, &apos;Analyst&apos;, 6000, &apos;F&apos;),
+    -&gt; (114, 4, &apos;Menon&apos;, &apos;Clerk&apos;, 1500, &apos;M&apos;),
+    -&gt; (115, 4, &apos;Tim&apos;, &apos;Clerk&apos;, 1500, &apos;M&apos;),
+mysql&gt; 
+mysql&gt; INSERT INTO EMPLOYEE (ID, Dept_ID, Name, Designation, Basic, Gender) VALUES (101, 1, &apos;Ram&apos;, &apos;Typist&apos;, 2000, &apos;M&apos;), (102, 2, &apos;Arun&apos;, &apos;Analyst&apos;, 6000, &apos;M&apos;), (121, 1, &apos;Ruby&apos;, &apos;Typist&apos;, 2010, &apos;F&apos;), (156
+, 3, &apos;Mary&apos;, &apos;Manager&apos;, 4500, &apos;F&apos;), (123, 2, &apos;Mridula&apos;, &apos;Analyst&apos;, 6000, &apos;F&apos;), (114, 4, &apos;Menon&apos;, &apos;Clerk&apos;, 1500, &apos;M&apos;), (115, 4, &apos;Tim&apos;, &apos;Clerk&apos;, 1500, &apos;M&apos;), (127, 2, &apos;Kiran&apos;, &apos;Manager&apos;, 4000, &apos;M&apos;);
+Query OK, 8 rows affected (0.06 sec)123, 2, &apos;Mridula&apos;, &apos;Analyst&apos;, 6000, &apos;F&apos;), (114, 4, &apos;Menon&apos;, &apos;Clerk&apos;, 1500, &apos;M&apos;), (115, 4, &apos;Tim&apos;, &apos;Clerk&apos;, 1500, &apos;M&apos;), (127, 2, &apos;Kiran&apos;, &apos;Manager&apos;, 4000, &apos;M&apos;);
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql&gt; select8from EMPLOYEE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;select8from EMPLOYEE&apos; at line 1
+mysql&gt; select*from EMPLOYEE;
++------+---------+---------+-------------+---------+--------+
+| ID   | Dept_ID | Name    | Designation | Basic   | Gender |
++------+---------+---------+-------------+---------+--------+
+| 101  |       1 | Ram     | Typist      | 2000.00 | M      |
+| 102  |       2 | Arun    | Analyst     | 6000.00 | M      |
+| 121  |       1 | Ruby    | Typist      | 2010.00 | F      |
+| 156  |       3 | Mary    | Manager     | 4500.00 | F      |
+| 123  |       2 | Mridula | Analyst     | 6000.00 | F      |
+| 114  |       4 | Menon   | Clerk       | 1500.00 | M      |
+| 115  |       4 | Tim     | Clerk       | 1500.00 | M      |
+| 127  |       2 | Kiran   | Manager     | 4000.00 | M      |
++------+---------+---------+-------------+---------+--------+
+8 rows in set (0.00 sec)
+
+mysql&gt; select DISTINCT from EMPLOYEE ORDER BY designation;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;from EMPLOYEE ORDER BY designation&apos; at line 1
+mysql&gt; select DISTINCT EMPLOYEE ORDER BY designation;
+ERROR 1054 (42S22): Unknown column &apos;EMPLOYEE&apos; in &apos;field list&apos;
+mysql&gt; select DISTINCT designation from EMPLOYEE;
++-------------+
+| designation |
++-------------+
+| Typist      |
+| Analyst     |
+| Manager     |
+| Clerk       |
++-------------+
+4 rows in set (0.01 sec)
+
+mysql&gt; SELECT COUNT(DISTINCT Designation) AS Num_Designations
+    -&gt; FROM Employee;
+ERROR 1146 (42S02): Table &apos;24mca44.Employee&apos; doesn&apos;t exist
+mysql&gt; SELECT COUNT(DISTINCT Designation) AS Num_Designations FROM EMPLOYEE;
++------------------+
+| Num_Designations |
++------------------+
+|                4 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; SELECT 
+    -&gt;     ID, 
+    -&gt;     Name, 
+    -&gt;     Designation AS Desig, 
+    -&gt;     DeptID, 
+    -&gt;     Basic, 
+    -&gt;     (Basic * 0.075) AS DA, 
+    -&gt;     (Basic * 0.10) AS HRA, 
+    -&gt;     (Basic + (Basic * 0.075) + (Basic * 0.10)) AS NET_SAL 
+    -&gt; FROM Employee;
+ERROR 1146 (42S02): Table &apos;24mca44.Employee&apos; doesn&apos;t exist
+mysql&gt; SELECT ID,Name,Designation AS Desig,Dept_ID,Basic,(Basic * 0.075) AS DA,(Basic * 0.10) AS HRA,(Basic + (Basic * 0.075) + (Basic * 0.10)) AS NET_SAL  FROM EMPLOYEE;
++------+---------+---------+---------+---------+-----------+----------+------------+
+| ID   | Name    | Desig   | Dept_ID | Basic   | DA        | HRA      | NET_SAL    |
++------+---------+---------+---------+---------+-----------+----------+------------+
+| 101  | Ram     | Typist  |       1 | 2000.00 | 150.00000 | 200.0000 | 2350.00000 |
+| 102  | Arun    | Analyst |       2 | 6000.00 | 450.00000 | 600.0000 | 7050.00000 |
+| 121  | Ruby    | Typist  |       1 | 2010.00 | 150.75000 | 201.0000 | 2361.75000 |
+| 156  | Mary    | Manager |       3 | 4500.00 | 337.50000 | 450.0000 | 5287.50000 |
+| 123  | Mridula | Analyst |       2 | 6000.00 | 450.00000 | 600.0000 | 7050.00000 |
+| 114  | Menon   | Clerk   |       4 | 1500.00 | 112.50000 | 150.0000 | 1762.50000 |
+| 115  | Tim     | Clerk   |       4 | 1500.00 | 112.50000 | 150.0000 | 1762.50000 |
+| 127  | Kiran   | Manager |       2 | 4000.00 | 300.00000 | 400.0000 | 4700.00000 |
++------+---------+---------+---------+---------+-----------+----------+------------+
+8 rows in set (0.00 sec)
+
+mysql&gt; SELECT ID,Name,Designation,Dept_ID,Basic,(Basic * 0.075) AS DA,(Basic * 0.10) AS HRA,(Basic + (Basic * 0.075) + (Basic * 0.10)) AS NET_SAL  FROM EMPLOYEE;
++------+---------+-------------+---------+---------+-----------+----------+------------+
+| ID   | Name    | Designation | Dept_ID | Basic   | DA        | HRA      | NET_SAL    |
++------+---------+-------------+---------+---------+-----------+----------+------------+
+| 101  | Ram     | Typist      |       1 | 2000.00 | 150.00000 | 200.0000 | 2350.00000 |
+| 102  | Arun    | Analyst     |       2 | 6000.00 | 450.00000 | 600.0000 | 7050.00000 |
+| 121  | Ruby    | Typist      |       1 | 2010.00 | 150.75000 | 201.0000 | 2361.75000 |
+| 156  | Mary    | Manager     |       3 | 4500.00 | 337.50000 | 450.0000 | 5287.50000 |
+| 123  | Mridula | Analyst     |       2 | 6000.00 | 450.00000 | 600.0000 | 7050.00000 |
+| 114  | Menon   | Clerk       |       4 | 1500.00 | 112.50000 | 150.0000 | 1762.50000 |
+| 115  | Tim     | Clerk       |       4 | 1500.00 | 112.50000 | 150.0000 | 1762.50000 |
+| 127  | Kiran   | Manager     |       2 | 4000.00 | 300.00000 | 400.0000 | 4700.00000 |
++------+---------+-------------+---------+---------+-----------+----------+------------+
+8 rows in set (0.00 sec)
+
+mysql&gt; SELECT max(basic) FROM EMPLOYEE where Gender = &apos;F&apos;;
++------------+
+| max(basic) |
++------------+
+|    6000.00 |
++------------+
+1 row in set (0.00 sec)
+
+mysql&gt; UPDATE EMPLOYEE ADD Manager_ID int(2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;ADD Manager_ID int(2)&apos; at line 1
+mysql&gt; UPDATE EMPLOYEE ADD column Manager_ID int(2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;ADD column Manager_ID int(2)&apos; at line 1
+mysql&gt; UPDATE TABLE EMPLOYEE ADD column Manager_ID int(2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;TABLE EMPLOYEE ADD column Manager_ID int(2)&apos; at line 1
+mysql&gt; UPDATE TABLE EMPLOYEE ADD Manager_ID int(2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;TABLE EMPLOYEE ADD Manager_ID int(2)&apos; at line 1
+mysql&gt; ALTER TABLE EMPLOYEE ADD Manager_ID int(2);
+Query OK, 0 rows affected, 1 warning (0.68 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql&gt; desc EMPLOYEE;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| ID          | varchar(5)    | YES  |     | NULL    |       |
+| Dept_ID     | int           | YES  |     | NULL    |       |
+| Name        | varchar(15)   | YES  |     | NULL    |       |
+| Designation | varchar(15)   | YES  |     | NULL    |       |
+| Basic       | decimal(10,2) | YES  |     | NULL    |       |
+| Gender      | varchar(1)    | YES  |     | NULL    |       |
+| Manager_ID  | int           | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql&gt; UPDATE EMPLOYEE SET Manager_ID = NULL WHERE ID = 101;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql&gt; UPDATE EMPLOYEE SET Manager_ID = 101 WHERE ID IN (102,121,156);
+Query OK, 3 rows affected (0.05 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql&gt; UPDATE EMPLOYEE SET Manager_ID = 102 WHERE ID IN (123,114,115);
+Query OK, 3 rows affected (0.05 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql&gt; UPDATE EMPLOYEE SET Manager_ID = 121 WHERE ID = 127;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql&gt; desc EMPLOYEE;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| ID          | varchar(5)    | YES  |     | NULL    |       |
+| Dept_ID     | int           | YES  |     | NULL    |       |
+| Name        | varchar(15)   | YES  |     | NULL    |       |
+| Designation | varchar(15)   | YES  |     | NULL    |       |
+| Basic       | decimal(10,2) | YES  |     | NULL    |       |
+| Gender      | varchar(1)    | YES  |     | NULL    |       |
+| Manager_ID  | int           | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql&gt; select * from EMPLOYEE;
++------+---------+---------+-------------+---------+--------+------------+
+| ID   | Dept_ID | Name    | Designation | Basic   | Gender | Manager_ID |
++------+---------+---------+-------------+---------+--------+------------+
+| 101  |       1 | Ram     | Typist      | 2000.00 | M      |       NULL |
+| 102  |       2 | Arun    | Analyst     | 6000.00 | M      |        101 |
+| 121  |       1 | Ruby    | Typist      | 2010.00 | F      |        101 |
+| 156  |       3 | Mary    | Manager     | 4500.00 | F      |        101 |
+| 123  |       2 | Mridula | Analyst     | 6000.00 | F      |        102 |
+| 114  |       4 | Menon   | Clerk       | 1500.00 | M      |        102 |
+| 115  |       4 | Tim     | Clerk       | 1500.00 | M      |        102 |
+| 127  |       2 | Kiran   | Manager     | 4000.00 | M      |        121 |
++------+---------+---------+-------------+---------+--------+------------+
+8 rows in set (0.00 sec)
+
+mysql&gt; ALTER TABLE Employee ADD JoiningDate DATE;
+ERROR 1146 (42S02): Table &apos;24mca44.Employee&apos; doesn&apos;t exist
+mysql&gt; ALTER TABLE EMPLOYEE ADD Joining_Date DATE;
+Query OK, 0 rows affected (0.40 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql&gt; select * from EMPLOYEE;
++------+---------+---------+-------------+---------+--------+------------+--------------+
+| ID   | Dept_ID | Name    | Designation | Basic   | Gender | Manager_ID | Joining_Date |
++------+---------+---------+-------------+---------+--------+------------+--------------+
+| 101  |       1 | Ram     | Typist      | 2000.00 | M      |       NULL | NULL         |
+| 102  |       2 | Arun    | Analyst     | 6000.00 | M      |        101 | NULL         |
+| 121  |       1 | Ruby    | Typist      | 2010.00 | F      |        101 | NULL         |
+| 156  |       3 | Mary    | Manager     | 4500.00 | F      |        101 | NULL         |
+| 123  |       2 | Mridula | Analyst     | 6000.00 | F      |        102 | NULL         |
+| 114  |       4 | Menon   | Clerk       | 1500.00 | M      |        102 | NULL         |
+| 115  |       4 | Tim     | Clerk       | 1500.00 | M      |        102 | NULL         |
+| 127  |       2 | Kiran   | Manager     | 4000.00 | M      |        121 | NULL         |
++------+---------+---------+-------------+---------+--------+------------+--------------+
+8 rows in set (0.00 sec)
+
+mysql&gt; desc EMPLOYEE;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| ID           | varchar(5)    | YES  |     | NULL    |       |
+| Dept_ID      | int           | YES  |     | NULL    |       |
+| Name         | varchar(15)   | YES  |     | NULL    |       |
+| Designation  | varchar(15)   | YES  |     | NULL    |       |
+| Basic        | decimal(10,2) | YES  |     | NULL    |       |
+| Gender       | varchar(1)    | YES  |     | NULL    |       |
+| Manager_ID   | int           | YES  |     | NULL    |       |
+| Joining_Date | date          | YES  |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql&gt; UPDATE Employee
+    -&gt; SET JoiningDate = CASE 
+    -&gt;     WHEN ID = 101 THEN &apos;2015-06-10&apos;
+    -&gt;     WHEN ID = 102 THEN &apos;2018-09-15&apos;
+    -&gt;     WHEN ID = 121 THEN &apos;2017-03-22&apos;
+    -&gt;     WHEN ID = 156 THEN &apos;2016-11-05&apos;
+    -&gt;     WHEN ID = 123 THEN &apos;2019-07-30&apos;
+    -&gt;     WHEN ID = 114 THEN &apos;2020-01-25&apos;
+    -&gt;     WHEN ID = 115 THEN &apos;2021-04-18&apos;
+    -&gt;     WHEN ID = 127 THEN &apos;2018-12-12&apos;
+    -&gt; END;
+ERROR 1146 (42S02): Table &apos;24mca44.Employee&apos; doesn&apos;t exist
+mysql&gt; UPDATE EMPLOYEE SET Joining_Date = CASE WHEN ID = 101 THEN &apos;2015-06-10&apos; WHEN ID = 102 THEN &apos;2018-09-15&apos; WHEN ID = 121 THEN &apos;2017-03-22&apos; WHEN ID = 156 THEN &apos;2016-11-05&apos; WHEN ID = 123 THEN &apos;2019-07-3
+0&apos; WHEN ID = 114 THEN &apos;2020-01-25&apos; WHEN ID = 115 THEN &apos;2021-04-18&apos; WHEN ID = 127 THEN &apos;2018-12-12&apos; END;
+Query OK, 8 rows affected (0.05 sec)
+Rows matched: 8  Changed: 8  Warnings: 0
+
+mysql&gt; select * from EMPLOYEE;
++------+---------+---------+-------------+---------+--------+------------+--------------+
+| ID   | Dept_ID | Name    | Designation | Basic   | Gender | Manager_ID | Joining_Date |
++------+---------+---------+-------------+---------+--------+------------+--------------+
+| 101  |       1 | Ram     | Typist      | 2000.00 | M      |       NULL | 2015-06-10   |
+| 102  |       2 | Arun    | Analyst     | 6000.00 | M      |        101 | 2018-09-15   |
+| 121  |       1 | Ruby    | Typist      | 2010.00 | F      |        101 | 2017-03-22   |
+| 156  |       3 | Mary    | Manager     | 4500.00 | F      |        101 | 2016-11-05   |
+| 123  |       2 | Mridula | Analyst     | 6000.00 | F      |        102 | 2019-07-30   |
+| 114  |       4 | Menon   | Clerk       | 1500.00 | M      |        102 | 2020-01-25   |
+| 115  |       4 | Tim     | Clerk       | 1500.00 | M      |        102 | 2021-04-18   |
+| 127  |       2 | Kiran   | Manager     | 4000.00 | M      |        121 | 2018-12-12   |
++------+---------+---------+-------------+---------+--------+------------+--------------+
+8 rows in set (0.01 sec)
+
+mysql&gt; select * from EMPLOYEE order by Joining_Date;
++------+---------+---------+-------------+---------+--------+------------+--------------+
+| ID   | Dept_ID | Name    | Designation | Basic   | Gender | Manager_ID | Joining_Date |
++------+---------+---------+-------------+---------+--------+------------+--------------+
+| 101  |       1 | Ram     | Typist      | 2000.00 | M      |       NULL | 2015-06-10   |
+| 156  |       3 | Mary    | Manager     | 4500.00 | F      |        101 | 2016-11-05   |
+| 121  |       1 | Ruby    | Typist      | 2010.00 | F      |        101 | 2017-03-22   |
+| 102  |       2 | Arun    | Analyst     | 6000.00 | M      |        101 | 2018-09-15   |
+| 127  |       2 | Kiran   | Manager     | 4000.00 | M      |        121 | 2018-12-12   |
+| 123  |       2 | Mridula | Analyst     | 6000.00 | F      |        102 | 2019-07-30   |
+| 114  |       4 | Menon   | Clerk       | 1500.00 | M      |        102 | 2020-01-25   |
+| 115  |       4 | Tim     | Clerk       | 1500.00 | M      |        102 | 2021-04-18   |
++------+---------+---------+-------------+---------+--------+------------+--------------+
+8 rows in set (0.00 sec)
+
+mysql&gt; select * from EMPLOYEE order by Joining_Date ASC;
++------+---------+---------+-------------+---------+--------+------------+--------------+
+| ID   | Dept_ID | Name    | Designation | Basic   | Gender | Manager_ID | Joining_Date |
++------+---------+---------+-------------+---------+--------+------------+--------------+
+| 101  |       1 | Ram     | Typist      | 2000.00 | M      |       NULL | 2015-06-10   |
+| 156  |       3 | Mary    | Manager     | 4500.00 | F      |        101 | 2016-11-05   |
+| 121  |       1 | Ruby    | Typist      | 2010.00 | F      |        101 | 2017-03-22   |
+| 102  |       2 | Arun    | Analyst     | 6000.00 | M      |        101 | 2018-09-15   |
+| 127  |       2 | Kiran   | Manager     | 4000.00 | M      |        121 | 2018-12-12   |
+| 123  |       2 | Mridula | Analyst     | 6000.00 | F      |        102 | 2019-07-30   |
+| 114  |       4 | Menon   | Clerk       | 1500.00 | M      |        102 | 2020-01-25   |
+| 115  |       4 | Tim     | Clerk       | 1500.00 | M      |        102 | 2021-04-18   |
++------+---------+---------+-------------+---------+--------+------------+--------------+
+8 rows in set (0.00 sec)
+
+mysql&gt; select * from EMPLOYEE order by Joining_Date DSC;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;DSC&apos; at line 1
+mysql&gt; select * from EMPLOYEE order by Joining_Date DASC;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;DASC&apos; at line 1
+mysql&gt; select * from EMPLOYEE order by Joining_Date DESC;
++------+---------+---------+-------------+---------+--------+------------+--------------+
+| ID   | Dept_ID | Name    | Designation | Basic   | Gender | Manager_ID | Joining_Date |
++------+---------+---------+-------------+---------+--------+------------+--------------+
+| 115  |       4 | Tim     | Clerk       | 1500.00 | M      |        102 | 2021-04-18   |
+| 114  |       4 | Menon   | Clerk       | 1500.00 | M      |        102 | 2020-01-25   |
+| 123  |       2 | Mridula | Analyst     | 6000.00 | F      |        102 | 2019-07-30   |
+| 127  |       2 | Kiran   | Manager     | 4000.00 | M      |        121 | 2018-12-12   |
+| 102  |       2 | Arun    | Analyst     | 6000.00 | M      |        101 | 2018-09-15   |
+| 121  |       1 | Ruby    | Typist      | 2010.00 | F      |        101 | 2017-03-22   |
+| 156  |       3 | Mary    | Manager     | 4500.00 | F      |        101 | 2016-11-05   |
+| 101  |       1 | Ram     | Typist      | 2000.00 | M      |       NULL | 2015-06-10   |
++------+---------+---------+-------------+---------+--------+------------+--------------+
+8 rows in set (0.00 sec)
+
+mysql&gt; CREATE TABLE DEPARTMENT (
+    -&gt;     DEPT_ID INT PRIMARY KEY,
+    -&gt;     DNAME VARCHAR(100) NOT NULL
+    -&gt; );
+Query OK, 0 rows affected (0.33 sec)
+
+mysql&gt; desc DEPARTMENT;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| DEPT_ID | int          | NO   | PRI | NULL    |       |
+| DNAME   | varchar(100) | NO   |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql&gt; ALTER TABLE EMPLOYEE MODIFY ID PRIMARY KEY;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;PRIMARY KEY&apos; at line 1
+mysql&gt; ALTER TABLE EMPLOYEE MODIFY ID PRIMARY_KEY;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;PRIMARY_KEY&apos; at line 1
+mysql&gt; ALTER TABLE EMPLOYEE ADD CONTRAINT( PRIMARY KEY) ID ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;( PRIMARY KEY) ID&apos; at line 1
+mysql&gt; ALTER TABLE EMPLOYEE ADD CONTRAINT( PRIMARY KEY) ID ;ALTER TABLE Employee 
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;( PRIMARY KEY) ID&apos; at line 1
+    -&gt; ADD CONSTRAINT PK_Employee PRIMARY KEY (ID);
+ERROR 1146 (42S02): Table &apos;24mca44.Employee&apos; doesn&apos;t exist
+mysql&gt; ALTER TABLE EMPLOYEE ADD CONSTRAINT PK_Employee PRIMARY KEY (ID);
+Query OK, 0 rows affected (1.26 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql&gt; desc EMPLOYEE;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| ID           | varchar(5)    | NO   | PRI | NULL    |       |
+| Dept_ID      | int           | YES  |     | NULL    |       |
+| Name         | varchar(15)   | YES  |     | NULL    |       |
+| Designation  | varchar(15)   | YES  |     | NULL    |       |
+| Basic        | decimal(10,2) | YES  |     | NULL    |       |
+| Gender       | varchar(1)    | YES  |     | NULL    |       |
+| Manager_ID   | int           | YES  |     | NULL    |       |
+| Joining_Date | date          | YES  |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql&gt; ALTER TABLE Employee 
+    -&gt; ADD CONSTRAINT PK_Employee PRIMARY KEY (ID);
+ERROR 1146 (42S02): Table &apos;24mca44.Employee&apos; doesn&apos;t exist
+mysql&gt; ALTER TABLE Employee 
+    -&gt; ADD CONSTRAINT FK_Employee_Department 
+    -&gt; FOREIGN KEY (DeptID) REFERENCES DEPARTMENT(DEPT_ID);
+ERROR 1146 (42S02): Table &apos;24mca44.Employee&apos; doesn&apos;t exist
+mysql&gt; ALTER TABLE EMPLOYEE ADD CONSTRAINT FK_Employee_Department FOREIGN KEY (Dept_ID) REFERENCES DEPARTMENT(DEPT_ID);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`24mca44`.`#sql-53e_2d`, CONSTRAINT `FK_Employee_Department` FOREIGN KEY (`Dept_ID`) REFERENCES `DEPARTMENT` (`DEPT_ID`))
+mysql&gt; ALTER TABLE EMPLOYEE ADD CONSTRAINT FK_Employee_Department FOREIGN KEY (Dept_ID) REFERENCES DEPARTMENT(DEPT_ID);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`24mca44`.`#sql-53e_2d`, CONSTRAINT `FK_Employee_Department` FOREIGN KEY (`Dept_ID`) REFERENCES `DEPARTMENT` (`DEPT_ID`))
+mysql&gt; ALTER TABLE EMPLOYEE ADD CONSTRAINT FK_Dept_ID FOREIGN KEY (Dept_ID) REFERENCES DEPARTMENT(DEPT_ID);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`24mca44`.`#sql-53e_2d`, CONSTRAINT `FK_Dept_ID` FOREIGN KEY (`Dept_ID`) REFERENCES `DEPARTMENT` (`DEPT_ID`))
+mysql&gt; INSERT INTO DEPARTMENT (DEPT_ID, DNAME) VALUES
+    -&gt; (1, &apos;DESIGN&apos;),
+    -&gt; (2, &apos;CODING&apos;),
+    -&gt; (3, &apos;TESTING&apos;),
+    -&gt; (4, &apos;RESEARCH&apos;);
+Query OK, 4 rows affected (0.05 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql&gt; select*from DEPARTMENT;
++---------+----------+
+| DEPT_ID | DNAME    |
++---------+----------+
+|       1 | DESIGN   |
+|       2 | CODING   |
+|       3 | TESTING  |
+|       4 | RESEARCH |
++---------+----------+
+4 rows in set (0.00 sec)
+
+mysql&gt; ALTER TABLE EMPLOYEE ADD CONSTRAINT FK_Dept_ID FOREIGN KEY (Dept_ID) REFERENCES DEPARTMENT(DEPT_ID);
+Query OK, 8 rows affected (1.36 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql&gt; desc DEPARTMENT;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| DEPT_ID | int          | NO   | PRI | NULL    |       |
+| DNAME   | varchar(100) | NO   |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql&gt; desc EMPLOYEE;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| ID           | varchar(5)    | NO   | PRI | NULL    |       |
+| Dept_ID      | int           | YES  | MUL | NULL    |       |
+| Name         | varchar(15)   | YES  |     | NULL    |       |
+| Designation  | varchar(15)   | YES  |     | NULL    |       |
+| Basic        | decimal(10,2) | YES  |     | NULL    |       |
+| Gender       | varchar(1)    | YES  |     | NULL    |       |
+| Manager_ID   | int           | YES  |     | NULL    |       |
+| Joining_Date | date          | YES  |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql&gt; SELECT E.Name AS Employee_Name, D.DNAME AS Department_Name FROM Employee E INNER JOIN Department D ON E.DeptID = D.DEPT_ID;
+ERROR 1146 (42S02): Table &apos;24mca44.Employee&apos; doesn&apos;t exist
+mysql&gt; SELECT E.Name AS Employee_Name, D.DNAME AS Department_Name FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID;
++---------------+-----------------+
+| Employee_Name | Department_Name |
++---------------+-----------------+
+| Ram           | DESIGN          |
+| Ruby          | DESIGN          |
+| Arun          | CODING          |
+| Mridula       | CODING          |
+| Kiran         | CODING          |
+| Mary          | TESTING         |
+| Menon         | RESEARCH        |
+| Tim           | RESEARCH        |
++---------------+-----------------+
+8 rows in set (0.00 sec)
+
+mysql&gt; SELECT D.DNAME FROM Employee E INNER JOIN Department D ON E.DeptID = D.DEPT_ID WHERE E.Name = &apos;Arun&apos;;
+ERROR 1146 (42S02): Table &apos;24mca44.Employee&apos; doesn&apos;t exist
+mysql&gt; SELECT D.DNAME FROM Employee E INNER JOIN Department D ON E.DeptID = D.DEPT_ID WHERE E.Name = &apos;Arun&apos;;
+ERROR 1146 (42S02): Table &apos;24mca44.Employee&apos; doesn&apos;t exist
+mysql&gt; SELECT D.DNAME FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE E.Name = &apos;Arun&apos;;
++--------+
+| DNAME  |
++--------+
+| CODING |
++--------+
+1 row in set (0.00 sec)
+
+mysql&gt; SELECT E.Basic FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE D.DNAME = &apos;DESIGN&apos;;
++---------+
+| Basic   |
++---------+
+| 2000.00 |
+| 2010.00 |
++---------+
+2 rows in set (0.00 sec)
+
+mysql&gt; SELECT SUM (E.Basic) FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE D.
+DNAME = &apos;DESIGN&apos;;
+ERROR 1630 (42000): FUNCTION 24mca44.SUM does not exist. Check the &apos;Function Name Parsing and Resolution&apos; section in the Reference Manual
+mysql&gt; SELECT TOTAL(E.Basic) FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE D.DNAME = &apos;DESIGN&apos;;
+ERROR 1305 (42000): FUNCTION 24mca44.TOTAL does not exist
+mysql&gt; SELECT MAX(E.Basic) FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE D.DNAME = &apos;DESIGN&apos;;
++--------------+
+| MAX(E.Basic) |
++--------------+
+|      2010.00 |
++--------------+
+1 row in set (0.01 sec)
+
+mysql&gt; SELECT AVG(E.Basic) FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE D.DNAME = &apos;DESIGN&apos;;
++--------------+
+| AVG(E.Basic) |
++--------------+
+|  2005.000000 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql&gt; SELECT sum(E.Basic) FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE D.DNAME = &apos;DESIGN&apos;;
++--------------+
+| sum(E.Basic) |
++--------------+
+|      4010.00 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql&gt; SELECT SUM(E.Basic) FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE D.DNAME = &apos;DESIGN&apos;;
++--------------+
+| SUM(E.Basic) |
++--------------+
+|      4010.00 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql&gt; SELECT E.* FROM Employee E INNER JOIN Department D ON E.DeptID = D.DEPT_ID WHERE E.Designation = &apos;Typist&apos; AND D.DNAME = &apos;DESIGN&apos;;
+ERROR 1146 (42S02): Table &apos;24mca44.Employee&apos; doesn&apos;t exist
+mysql&gt; SELECT E.* FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE E.Designatio
+n = &apos;Typist&apos; AND D.DNAME = &apos;DESIGN&apos;;
++-----+---------+------+-------------+---------+--------+------------+--------------+
+| ID  | Dept_ID | Name | Designation | Basic   | Gender | Manager_ID | Joining_Date |
++-----+---------+------+-------------+---------+--------+------------+--------------+
+| 101 |       1 | Ram  | Typist      | 2000.00 | M      |       NULL | 2015-06-10   |
+| 121 |       1 | Ruby | Typist      | 2010.00 | F      |        101 | 2017-03-22   |
++-----+---------+------+-------------+---------+--------+------------+--------------+
+2 rows in set (0.01 sec)
+
+mysql&gt; SELECT E.* FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE E.Designation = &apos;Typist&apos; AND D.DNAME = &apos;DESIGN&apos;;
++-----+---------+------+-------------+---------+--------+------------+--------------+
+| ID  | Dept_ID | Name | Designation | Basic   | Gender | Manager_ID | Joining_Date |
++-----+---------+------+-------------+---------+--------+------------+--------------+
+| 101 |       1 | Ram  | Typist      | 2000.00 | M      |       NULL | 2015-06-10   |
+| 121 |       1 | Ruby | Typist      | 2010.00 | F      |        101 | 2017-03-22   |
++-----+---------+------+-------------+---------+--------+------------+--------------+
+2 rows in set (0.00 sec)
+
+mysql&gt; SELECT E.Basic FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE D.DNAME
+= &apos;RESEARCH&apos;;
++---------+
+| Basic   |
++---------+
+| 1500.00 |
+| 1500.00 |
++---------+
+2 rows in set (0.00 sec)
+
+mysql&gt; SELECT E.Basic FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE D.DNAME = &apos;RESEARCH&apos;;
++---------+
+| Basic   |
++---------+
+| 1500.00 |
+| 1500.00 |
++---------+
+2 rows in set (0.00 sec)
+
+mysql&gt; SELECT E.* FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE E.Gender=&apos;F&apos;;
++-----+---------+---------+-------------+---------+--------+------------+--------------+
+| ID  | Dept_ID | Name    | Designation | Basic   | Gender | Manager_ID | Joining_Date |
++-----+---------+---------+-------------+---------+--------+------------+--------------+
+| 121 |       1 | Ruby    | Typist      | 2010.00 | F      |        101 | 2017-03-22   |
+| 123 |       2 | Mridula | Analyst     | 6000.00 | F      |        102 | 2019-07-30   |
+| 156 |       3 | Mary    | Manager     | 4500.00 | F      |        101 | 2016-11-05   |
++-----+---------+---------+-------------+---------+--------+------------+--------------+
+3 rows in set (0.01 sec)
+
+mysql&gt; SELECT E.* FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE E.Gender=&apos;F&apos; and D.DNAME=&apos;TESTING&apos;;
++-----+---------+------+-------------+---------+--------+------------+--------------+
+| ID  | Dept_ID | Name | Designation | Basic   | Gender | Manager_ID | Joining_Date |
++-----+---------+------+-------------+---------+--------+------------+--------------+
+| 156 |       3 | Mary | Manager     | 4500.00 | F      |        101 | 2016-11-05   |
++-----+---------+------+-------------+---------+--------+------------+--------------+
+1 row in set (0.01 sec)
+
+mysql&gt; select*from EMPLOYEE;
++-----+---------+---------+-------------+---------+--------+------------+--------------+
+| ID  | Dept_ID | Name    | Designation | Basic   | Gender | Manager_ID | Joining_Date |
++-----+---------+---------+-------------+---------+--------+------------+--------------+
+| 101 |       1 | Ram     | Typist      | 2000.00 | M      |       NULL | 2015-06-10   |
+| 102 |       2 | Arun    | Analyst     | 6000.00 | M      |        101 | 2018-09-15   |
+| 114 |       4 | Menon   | Clerk       | 1500.00 | M      |        102 | 2020-01-25   |
+| 115 |       4 | Tim     | Clerk       | 1500.00 | M      |        102 | 2021-04-18   |
+| 121 |       1 | Ruby    | Typist      | 2010.00 | F      |        101 | 2017-03-22   |
+| 123 |       2 | Mridula | Analyst     | 6000.00 | F      |        102 | 2019-07-30   |
+| 127 |       2 | Kiran   | Manager     | 4000.00 | M      |        121 | 2018-12-12   |
+| 156 |       3 | Mary    | Manager     | 4500.00 | F      |        101 | 2016-11-05   |
++-----+---------+---------+-------------+---------+--------+------------+--------------+
+8 rows in set (0.00 sec)
+
+mysql&gt; SELECT E.Basic FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE D.DNAME NOT IN (&apos;TESTING&apos;,&apos;CODING&apos;);
++---------+
+| Basic   |
++---------+
+| 2000.00 |
+| 2010.00 |
+| 1500.00 |
+| 1500.00 |
++---------+
+4 rows in set (0.00 sec)
+
+mysql&gt; SELECT E.* FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE D.DNAME NOT IN (&apos;TESTING&apos;,&apos;CODING&apos;);
++-----+---------+-------+-------------+---------+--------+------------+--------------+
+| ID  | Dept_ID | Name  | Designation | Basic   | Gender | Manager_ID | Joining_Date |
++-----+---------+-------+-------------+---------+--------+------------+--------------+
+| 101 |       1 | Ram   | Typist      | 2000.00 | M      |       NULL | 2015-06-10   |
+| 121 |       1 | Ruby  | Typist      | 2010.00 | F      |        101 | 2017-03-22   |
+| 114 |       4 | Menon | Clerk       | 1500.00 | M      |        102 | 2020-01-25   |
+| 115 |       4 | Tim   | Clerk       | 1500.00 | M      |        102 | 2021-04-18   |
++-----+---------+-------+-------------+---------+--------+------------+--------------+
+4 rows in set (0.01 sec)
+
+mysql&gt; SELECT D.DNAME FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE MAX(E.Basic);
+ERROR 1111 (HY000): Invalid use of group function
+mysql&gt; SELECT D.DNAME FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE E.Basic);
+[1]+  Stopped                 mysql -u 24mca44 -p
+<font color="#26A269"><b>24mca44@mcaserver</b></font>:<font color="#12488B"><b>~</b></font>$ mysql -u 24mca44 -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 57
+Server version: 8.0.40-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type &apos;help;&apos; or &apos;\h&apos; for help. Type &apos;\c&apos; to clear the current input statement.
+
+mysql&gt; SELECT E.* FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE D.DNAME NOT IN (&apos;TESTING&apos;,&apos;CODING&apos;);
+ERROR 1046 (3D000): No database selected
+mysql&gt; USE 24mca44;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql&gt; SELECT E.* FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE D.DNAME NOT IN (&apos;TESTING&apos;,&apos;CODING&apos;);
++-----+---------+-------+-------------+---------+--------+------------+--------------+
+| ID  | Dept_ID | Name  | Designation | Basic   | Gender | Manager_ID | Joining_Date |
++-----+---------+-------+-------------+---------+--------+------------+--------------+
+| 101 |       1 | Ram   | Typist      | 2000.00 | M      |       NULL | 2015-06-10   |
+| 121 |       1 | Ruby  | Typist      | 2010.00 | F      |        101 | 2017-03-22   |
+| 114 |       4 | Menon | Clerk       | 1500.00 | M      |        102 | 2020-01-25   |
+| 115 |       4 | Tim   | Clerk       | 1500.00 | M      |        102 | 2021-04-18   |
++-----+---------+-------+-------------+---------+--------+------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql&gt; SELECT D.DNAME FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE MAX(E.Basic);
+ERROR 1111 (HY000): Invalid use of group function
+mysql&gt; SELECT D.DNAME FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON E.Dept_ID = D.DEPT_ID WHERE E.Basic=(SELECT MAX(Basic) FROM EMPLOYEE);
++--------+
+| DNAME  |
++--------+
+| CODING |
+| CODING |
++--------+
+2 rows in set (0.00 sec)
+
+mysql&gt; SELECT D.DNAME FROM Department D INNER JOIN Employee E ON D.DEPT_ID = E.DeptID GROUP BY D.DNAME HAVING COUNT(E.ID) = (SELECT MIN(emp_count) FROM (SELECT COUNT(ID) AS emp_count FROM Employee GROUP BY DeptID) AS temp);
+ERROR 1146 (42S02): Table &apos;24mca44.Department&apos; doesn&apos;t exist
+mysql&gt; SELECT D.DNAME FROM DEPARMENT D INNER JOIN EMPLOYEE E ON D.DEPT_ID = E.Dept_ID GROUP BY D.DNAME HAVING COUNT(E.ID) = (SELECT MIN(emp_count) FROM (SELECT COUNT(ID) AS emp_count FROM Employee GROUP B
+Y DeptID) AS temp);
+ERROR 1146 (42S02): Table &apos;24mca44.DEPARMENT&apos; doesn&apos;t exist
+mysql&gt; SELECT D.DNAME FROM DEPARMENT D INNER JOIN EMPLOYEE E ON D.DEPT_ID = E.Dept_ID GROUP BY D.DNAME HAVING COUNT(E.ID) = (SELECT MIN(emp_count) FROM (SELECT COUNT(ID) AS emp_count FROM Employee GROUP BY Dept_ID) AS temp);
+ERROR 1146 (42S02): Table &apos;24mca44.DEPARMENT&apos; doesn&apos;t exist
+mysql&gt; SELECT D.DNAME FROM DEPARTMENT D INNER JOIN EMPLOYEE E ON D.DEPT_ID = E.Dept_ID GROUP BY D.DNAME HAVING COUNT(E.ID) = (SELECT MIN(emp_count) FROM (SELECT COUNT(ID) AS emp_count FROM Employee GROUP
+BY Dept_ID) AS temp);
+ERROR 1146 (42S02): Table &apos;24mca44.Employee&apos; doesn&apos;t exist
+mysql&gt; SELECT D.DNAME FROM DEPARTMENT D INNER JOIN EMPLOYEE E ON D.DEPT_ID = E.Dept_ID GROUP BY D.DNAME HAVING COUNT(E.ID) = (SELECT MIN(emp_count) FROM (SELECT COUNT(ID) AS emp_count FROM EMPLOYEE GROUP
+BY Dept_ID) AS temp);
++---------+
+| DNAME   |
++---------+
+| TESTING |
++---------+
+1 row in set (0.00 sec)
+
+mysql&gt; SELECT DISTINCT Basic FROM Employee ORDER BY Basic DESC LIMIT 1 OFFSET 1;
+ERROR 1146 (42S02): Table &apos;24mca44.Employee&apos; doesn&apos;t exist
+mysql&gt; SELECT DISTINCT Basic FROM EMPLOYEE ORDER BY Basic DESC LIMIT 1 OFFSET 1;
++---------+
+| Basic   |
++---------+
+| 4500.00 |
++---------+
+1 row in set (0.00 sec)
+
+mysql&gt; SELECT DISTINCT Basic FROM Employee ORDER BY Basic ASC LIMIT 1 OFFSET 1;
+ERROR 1146 (42S02): Table &apos;24mca44.Employee&apos; doesn&apos;t exist
+mysql&gt; SELECT DISTINCT Basic FROM EMPLOYEE ORDER BY Basic ASC LIMIT 1 OFFSET 1;
++---------+
+| Basic   |
++---------+
+| 2000.00 |
++---------+
+1 row in set (0.00 sec)
+
+mysql&gt; SELECT E.Name FROM Employee E WHERE E.Basic &gt; (SELECT AVG(Basic) FROM Employee WHERE DeptID = E.DeptID);
+ERROR 1146 (42S02): Table &apos;24mca44.Employee&apos; doesn&apos;t exist
+mysql&gt; SELECT E.Name FROM EMPLOYEE E WHERE E.Basic &gt; (SELECT AVG(Basic) FROM EMPLOYEE WHERE Dept_ID = E.Dept_ID);
++---------+
+| Name    |
++---------+
+| Arun    |
+| Ruby    |
+| Mridula |
++---------+
+3 rows in set (0.00 sec)
+
+mysql&gt; SELECT E.Name FROM Employee E WHERE E.Manager_ID = (SELECT ID FROM Employee WHERE Name = &apos;Ram&apos;);
+ERROR 1146 (42S02): Table &apos;24mca44.Employee&apos; doesn&apos;t exist
+mysql&gt; SELECT E.Name FROM EMPLOYEE E WHERE E.Manager_ID = (SELECT ID FROM EMPLOYEE WHERE Name = &apos;Ram&apos;);
++------+
+| Name |
++------+
+| Arun |
+| Ruby |
+| Mary |
++------+
+3 rows in set (0.00 sec)
+
+mysql&gt; 
+
+</pre>
