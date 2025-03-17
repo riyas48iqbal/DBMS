@@ -1,0 +1,351 @@
+<pre>Database changed
+mysql&gt; show tables
+    -&gt; ;
++-------------------+
+| Tables_in_24mca44 |
++-------------------+
+| DEPARTMENT        |
+| EMPLOYEE          |
+| countries         |
+| course            |
+| department        |
+| departments       |
+| dependents        |
+| employee          |
+| employees         |
+| jobs              |
+| locations         |
+| orders            |
+| persons           |
+| regions           |
+| student           |
++-------------------+
+15 rows in set (0.00 sec)
+
+mysql&gt; SELECT e.*
+    -&gt; FROM employees e
+    -&gt; JOIN departments d ON e.department_id = d.department_id
+    -&gt; WHERE d.location_id = 1700;
++-------------+------------+-----------+---------------------------+--------------+------------+--------+----------+------------+---------------+
+| employee_id | first_name | last_name | email                     | phone_number | hire_date  | job_id | salary   | manager_id | department_id |
++-------------+------------+-----------+---------------------------+--------------+------------+--------+----------+------------+---------------+
+|           1 | Alice      | Johnson   | alice.johnson@example.com | 123-456-7890 | 2022-01-15 |    101 | 75000.00 |       NULL |             1 |
+|           2 | Bob        | Smith     | bob.smith@example.com     | 234-567-8901 | 2021-03-22 |    101 | 82000.00 |          1 |             1 |
++-------------+------------+-----------+---------------------------+--------------+------------+--------+----------+------------+---------------+
+2 rows in set (0.00 sec)
+
+mysql&gt; SELECT e.*
+    -&gt; FROM employees e
+    -&gt; JOIN departments d ON e.department_id = d.department_id
+    -&gt; WHERE d.location_id &lt;&gt; 1700;
++-------------+------------+-----------+-------------------------------+--------------+------------+--------+-----------+------------+---------------+
+| employee_id | first_name | last_name | email                         | phone_number | hire_date  | job_id | salary    | manager_id | department_id |
++-------------+------------+-----------+-------------------------------+--------------+------------+--------+-----------+------------+---------------+
+|           3 | Charlie    | Brown     | charlie.brown@example.com     | 345-678-9012 | 2020-07-30 |    102 |  95000.00 |       NULL |             2 |
+|           4 | David      | Lee       | david.lee@example.com         | 456-789-0123 | 2019-09-14 |    103 | 102000.00 |          3 |             3 |
+|           5 | Eva        | Williams  | eva.williams@example.com      | 567-890-1234 | 2018-11-25 |    103 | 108000.00 |          4 |             3 |
+|           6 | Frank      | Miller    | frank.miller@example.com      | 678-901-2345 | 2023-06-10 |    104 |  68000.00 |       NULL |             4 |
+|           7 | Grace      | Davis     | grace.davis@example.com       | 789-012-3456 | 2022-08-18 |    104 |  72000.00 |          6 |             4 |
+|           8 | Henry      | Taylor    | henry.taylor@example.com      | 890-123-4567 | 2020-02-28 |    105 |  59000.00 |       NULL |             5 |
+|           9 | Isabella   | Martinez  | isabella.martinez@example.com | 901-234-5678 | 2019-04-17 |    105 |  63000.00 |          8 |             5 |
+|          10 | Jack       | Wilson    | jack.wilson@example.com       | 012-345-6789 | 2021-12-09 |    105 |  67000.00 |          9 |             5 |
++-------------+------------+-----------+-------------------------------+--------------+------------+--------+-----------+------------+---------------+
+8 rows in set (0.01 sec)
+
+mysql&gt; SELECT *
+    -&gt; FROM employees
+    -&gt; WHERE salary = (SELECT MAX(salary) FROM employees);
++-------------+------------+-----------+--------------------------+--------------+------------+--------+-----------+------------+---------------+
+| employee_id | first_name | last_name | email                    | phone_number | hire_date  | job_id | salary    | manager_id | department_id |
++-------------+------------+-----------+--------------------------+--------------+------------+--------+-----------+------------+---------------+
+|           5 | Eva        | Williams  | eva.williams@example.com | 567-890-1234 | 2018-11-25 |    103 | 108000.00 |          4 |             3 |
++-------------+------------+-----------+--------------------------+--------------+------------+--------+-----------+------------+---------------+
+1 row in set (0.00 sec)
+
+mysql&gt; SELECT *
+    -&gt; FROM employees
+    -&gt; WHERE salary &gt; (SELECT AVG(salary) FROM employees);
++-------------+------------+-----------+---------------------------+--------------+------------+--------+-----------+------------+---------------+
+| employee_id | first_name | last_name | email                     | phone_number | hire_date  | job_id | salary    | manager_id | department_id |
++-------------+------------+-----------+---------------------------+--------------+------------+--------+-----------+------------+---------------+
+|           2 | Bob        | Smith     | bob.smith@example.com     | 234-567-8901 | 2021-03-22 |    101 |  82000.00 |          1 |             1 |
+|           3 | Charlie    | Brown     | charlie.brown@example.com | 345-678-9012 | 2020-07-30 |    102 |  95000.00 |       NULL |             2 |
+|           4 | David      | Lee       | david.lee@example.com     | 456-789-0123 | 2019-09-14 |    103 | 102000.00 |          3 |             3 |
+|           5 | Eva        | Williams  | eva.williams@example.com  | 567-890-1234 | 2018-11-25 |    103 | 108000.00 |          4 |             3 |
++-------------+------------+-----------+---------------------------+--------------+------------+--------+-----------+------------+---------------+
+4 rows in set (0.00 sec)
+
+mysql&gt; SELECT DISTINCT d.department_id, d.department_name
+    -&gt; FROM departments d
+    -&gt; JOIN employees e ON d.department_id = e.department_id
+    -&gt; WHERE e.salary &gt; 10000;
++---------------+-----------------+
+| department_id | department_name |
++---------------+-----------------+
+|             1 | IT              |
+|             2 | HR              |
+|             3 | Finance         |
+|             4 | Marketing       |
+|             5 | Sales           |
++---------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql&gt; SELECT d.department_id, d.department_name
+    -&gt; FROM departments d
+    -&gt; WHERE d.department_id NOT IN (
+    -&gt;     SELECT DISTINCT department_id FROM employees WHERE salary &gt; 10000
+    -&gt; );
+Empty set (0.00 sec)
+
+mysql&gt; SELECT *
+    -&gt; FROM employees
+    -&gt; WHERE salary &gt; (SELECT MIN(salary) FROM employees);
++-------------+------------+-----------+-------------------------------+--------------+------------+--------+-----------+------------+---------------+
+| employee_id | first_name | last_name | email                         | phone_number | hire_date  | job_id | salary    | manager_id | department_id |
++-------------+------------+-----------+-------------------------------+--------------+------------+--------+-----------+------------+---------------+
+|           1 | Alice      | Johnson   | alice.johnson@example.com     | 123-456-7890 | 2022-01-15 |    101 |  75000.00 |       NULL |             1 |
+|           2 | Bob        | Smith     | bob.smith@example.com         | 234-567-8901 | 2021-03-22 |    101 |  82000.00 |          1 |             1 |
+|           3 | Charlie    | Brown     | charlie.brown@example.com     | 345-678-9012 | 2020-07-30 |    102 |  95000.00 |       NULL |             2 |
+|           4 | David      | Lee       | david.lee@example.com         | 456-789-0123 | 2019-09-14 |    103 | 102000.00 |          3 |             3 |
+|           5 | Eva        | Williams  | eva.williams@example.com      | 567-890-1234 | 2018-11-25 |    103 | 108000.00 |          4 |             3 |
+|           6 | Frank      | Miller    | frank.miller@example.com      | 678-901-2345 | 2023-06-10 |    104 |  68000.00 |       NULL |             4 |
+|           7 | Grace      | Davis     | grace.davis@example.com       | 789-012-3456 | 2022-08-18 |    104 |  72000.00 |          6 |             4 |
+|           9 | Isabella   | Martinez  | isabella.martinez@example.com | 901-234-5678 | 2019-04-17 |    105 |  63000.00 |          8 |             5 |
+|          10 | Jack       | Wilson    | jack.wilson@example.com       | 012-345-6789 | 2021-12-09 |    105 |  67000.00 |          9 |             5 |
++-------------+------------+-----------+-------------------------------+--------------+------------+--------+-----------+------------+---------------+
+9 rows in set (0.00 sec)
+
+mysql&gt; SELECT *
+    -&gt; FROM employees
+    -&gt; WHERE salary &gt;= ALL (SELECT MAX(salary) FROM employees GROUP BY department_id);
++-------------+------------+-----------+--------------------------+--------------+------------+--------+-----------+------------+---------------+
+| employee_id | first_name | last_name | email                    | phone_number | hire_date  | job_id | salary    | manager_id | department_id |
++-------------+------------+-----------+--------------------------+--------------+------------+--------+-----------+------------+---------------+
+|           5 | Eva        | Williams  | eva.williams@example.com | 567-890-1234 | 2018-11-25 |    103 | 108000.00 |          4 |             3 |
++-------------+------------+-----------+--------------------------+--------------+------------+--------+-----------+------------+---------------+
+1 row in set (0.00 sec)
+
+mysql&gt; SELECT AVG(avg_salary) AS avg_of_avg_salary
+    -&gt; FROM (SELECT AVG(salary) AS avg_salary FROM employees GROUP BY department_id) AS dept_avg;
++-------------------+
+| avg_of_avg_salary |
++-------------------+
+|  82300.0000000000 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; SELECT employee_id, first_name, last_name, salary, 
+    -&gt;        (SELECT AVG(salary) FROM employees) AS avg_salary, 
+    -&gt;        salary - (SELECT AVG(salary) FROM employees) AS salary_difference
+    -&gt; FROM employees;
++-------------+------------+-----------+-----------+--------------+-------------------+
+| employee_id | first_name | last_name | salary    | avg_salary   | salary_difference |
++-------------+------------+-----------+-----------+--------------+-------------------+
+|           1 | Alice      | Johnson   |  75000.00 | 79100.000000 |      -4100.000000 |
+|           2 | Bob        | Smith     |  82000.00 | 79100.000000 |       2900.000000 |
+|           3 | Charlie    | Brown     |  95000.00 | 79100.000000 |      15900.000000 |
+|           4 | David      | Lee       | 102000.00 | 79100.000000 |      22900.000000 |
+|           5 | Eva        | Williams  | 108000.00 | 79100.000000 |      28900.000000 |
+|           6 | Frank      | Miller    |  68000.00 | 79100.000000 |     -11100.000000 |
+|           7 | Grace      | Davis     |  72000.00 | 79100.000000 |      -7100.000000 |
+|           8 | Henry      | Taylor    |  59000.00 | 79100.000000 |     -20100.000000 |
+|           9 | Isabella   | Martinez  |  63000.00 | 79100.000000 |     -16100.000000 |
+|          10 | Jack       | Wilson    |  67000.00 | 79100.000000 |     -12100.000000 |
++-------------+------------+-----------+-----------+--------------+-------------------+
+10 rows in set (0.00 sec)
+
+mysql&gt; SELECT e.*
+    -&gt; FROM employees e
+    -&gt; WHERE salary &gt; (
+    -&gt;     SELECT AVG(salary)
+    -&gt;     FROM employees e2
+    -&gt;     WHERE e.department_id = e2.department_id
+    -&gt; );
++-------------+------------+-----------+--------------------------+--------------+------------+--------+-----------+------------+---------------+
+| employee_id | first_name | last_name | email                    | phone_number | hire_date  | job_id | salary    | manager_id | department_id |
++-------------+------------+-----------+--------------------------+--------------+------------+--------+-----------+------------+---------------+
+|           2 | Bob        | Smith     | bob.smith@example.com    | 234-567-8901 | 2021-03-22 |    101 |  82000.00 |          1 |             1 |
+|           5 | Eva        | Williams  | eva.williams@example.com | 567-890-1234 | 2018-11-25 |    103 | 108000.00 |          4 |             3 |
+|           7 | Grace      | Davis     | grace.davis@example.com  | 789-012-3456 | 2022-08-18 |    104 |  72000.00 |          6 |             4 |
+|          10 | Jack       | Wilson    | jack.wilson@example.com  | 012-345-6789 | 2021-12-09 |    105 |  67000.00 |          9 |             5 |
++-------------+------------+-----------+--------------------------+--------------+------------+--------+-----------+------------+---------------+
+4 rows in set (0.00 sec)
+
+mysql&gt; SELECT e.*
+    -&gt; FROM employees e
+    -&gt; LEFT JOIN dependents d ON e.employee_id = d.employee_id
+    -&gt; WHERE d.dependent_id IS NULL;
++-------------+------------+-----------+-------------------------------+--------------+------------+--------+----------+------------+---------------+
+| employee_id | first_name | last_name | email                         | phone_number | hire_date  | job_id | salary   | manager_id | department_id |
++-------------+------------+-----------+-------------------------------+--------------+------------+--------+----------+------------+---------------+
+|           6 | Frank      | Miller    | frank.miller@example.com      | 678-901-2345 | 2023-06-10 |    104 | 68000.00 |       NULL |             4 |
+|           7 | Grace      | Davis     | grace.davis@example.com       | 789-012-3456 | 2022-08-18 |    104 | 72000.00 |          6 |             4 |
+|           8 | Henry      | Taylor    | henry.taylor@example.com      | 890-123-4567 | 2020-02-28 |    105 | 59000.00 |       NULL |             5 |
+|           9 | Isabella   | Martinez  | isabella.martinez@example.com | 901-234-5678 | 2019-04-17 |    105 | 63000.00 |          8 |             5 |
+|          10 | Jack       | Wilson    | jack.wilson@example.com       | 012-345-6789 | 2021-12-09 |    105 | 67000.00 |          9 |             5 |
++-------------+------------+-----------+-------------------------------+--------------+------------+--------+----------+------------+---------------+
+5 rows in set (0.00 sec)
+
+mysql&gt; SELECT e.first_name, e.last_name, d.department_name
+    -&gt; FROM employees e
+    -&gt; JOIN departments d ON e.department_id = d.department_id
+    -&gt; WHERE e.department_id IN (1, 2, 3);
++------------+-----------+-----------------+
+| first_name | last_name | department_name |
++------------+-----------+-----------------+
+| Alice      | Johnson   | IT              |
+| Bob        | Smith     | IT              |
+| Charlie    | Brown     | HR              |
+| David      | Lee       | Finance         |
+| Eva        | Williams  | Finance         |
++------------+-----------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql&gt; SELECT e.first_name, e.last_name, j.job_title, d.department_name
+    -&gt; FROM employees e
+    -&gt; JOIN jobs j ON e.job_id = j.job_id
+    -&gt; JOIN departments d ON e.department_id = d.department_id
+    -&gt; WHERE e.department_id IN (1, 2, 3) AND e.salary &gt; 10000;
++------------+-----------+-------------------+-----------------+
+| first_name | last_name | job_title         | department_name |
++------------+-----------+-------------------+-----------------+
+| Alice      | Johnson   | Software Engineer | IT              |
+| Bob        | Smith     | Software Engineer | IT              |
+| Charlie    | Brown     | HR Manager        | HR              |
+| David      | Lee       | Financial Analyst | Finance         |
+| Eva        | Williams  | Financial Analyst | Finance         |
++------------+-----------+-------------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql&gt; SELECT d.department_name, l.street_address, l.postal_code, c.country_name, r.region_name
+    -&gt; FROM departments d
+    -&gt; JOIN locations l ON d.location_id = l.location_id
+    -&gt; JOIN countries c ON l.country_id = c.country_id
+    -&gt; JOIN regions r ON c.region_id = r.region_id;
++-----------------+---------------------+-------------+----------------+---------------+
+| department_name | street_address      | postal_code | country_name   | region_name   |
++-----------------+---------------------+-------------+----------------+---------------+
+| HR              | 456 Mountain Rd     | M5B 1L2     | Canada         | North America |
+| IT              | 123 Ocean Ave       | 10001       | United States  | North America |
+| Marketing       | 101 River Way       | SW1A 1AA    | United Kingdom | Europe        |
+| Finance         | 789 Tech St         | 560001      | India          | Asia          |
+| Sales           | 202 Rainforest Blvd | 01000       | Brazil         | South America |
++-----------------+---------------------+-------------+----------------+---------------+
+5 rows in set (0.00 sec)
+
+mysql&gt; SELECT e.first_name, e.last_name, d.department_id, d.department_name
+    -&gt; FROM employees e
+    -&gt; LEFT JOIN departments d ON e.department_id = d.department_id;
++------------+-----------+---------------+-----------------+
+| first_name | last_name | department_id | department_name |
++------------+-----------+---------------+-----------------+
+| Alice      | Johnson   |             1 | IT              |
+| Bob        | Smith     |             1 | IT              |
+| Charlie    | Brown     |             2 | HR              |
+| David      | Lee       |             3 | Finance         |
+| Eva        | Williams  |             3 | Finance         |
+| Frank      | Miller    |             4 | Marketing       |
+| Grace      | Davis     |             4 | Marketing       |
+| Henry      | Taylor    |             5 | Sales           |
+| Isabella   | Martinez  |             5 | Sales           |
+| Jack       | Wilson    |             5 | Sales           |
++------------+-----------+---------------+-----------------+
+10 rows in set (0.00 sec)</pre>
+
+<pre>mysql&gt; SELECT e.first_name, e.last_name, d.department_name, l.city, l.state_province
+    -&gt; FROM employees e
+    -&gt; JOIN departments d ON e.department_id = d.department_id
+    -&gt; JOIN locations l ON d.location_id = l.location_id
+    -&gt; WHERE e.first_name LIKE &apos;%Z%&apos;;
++------------+-----------+-----------------+----------+----------------+
+| first_name | last_name | department_name | city     | state_province |
++------------+-----------+-----------------+----------+----------------+
+| Zachary    | Johnson   | IT              | New York | NY             |
++------------+-----------+-----------------+----------+----------------+
+1 row in set (0.00 sec)
+
+mysql&gt; SELECT e.first_name, e.last_name, d.department_id, d.department_name
+    -&gt; FROM departments d
+    -&gt; LEFT JOIN employees e ON d.department_id = e.department_id;
++------------+-----------+---------------+-----------------+
+| first_name | last_name | department_id | department_name |
++------------+-----------+---------------+-----------------+
+| Zachary    | Johnson   |             1 | IT              |
+| Michael    | Smith     |             1 | IT              |
+| David      | Brown     |             2 | HR              |
+| Sophia     | Lee       |             3 | Finance         |
+| Emma       | Williams  |             3 | Finance         |
+| Daniel     | Miller    |             4 | Marketing       |
+| Olivia     | Davis     |             4 | Marketing       |
+| Ethan      | Taylor    |             5 | Sales           |
+| Lucas      | Martinez  |             5 | Sales           |
+| Emily      | Wilson    |             5 | Sales           |
++------------+-----------+---------------+-----------------+
+10 rows in set (0.00 sec)
+
+mysql&gt; SELECT e.first_name AS employee_name, m.first_name AS manager_name
+    -&gt; FROM employees e
+    -&gt; LEFT JOIN employees m ON e.manager_id = m.employee_id;
++---------------+--------------+
+| employee_name | manager_name |
++---------------+--------------+
+| Zachary       | NULL         |
+| Michael       | Zachary      |
+| David         | NULL         |
+| Sophia        | David        |
+| Emma          | Sophia       |
+| Daniel        | NULL         |
+| Olivia        | Daniel       |
+| Ethan         | NULL         |
+| Lucas         | Ethan        |
+| Emily         | Lucas        |
++---------------+--------------+
+10 rows in set (0.01 sec)
+
+mysql&gt; SELECT e.first_name, e.last_name, e.department_id
+    -&gt; FROM employees e
+    -&gt; WHERE department_id = (
+    -&gt;     SELECT department_id FROM employees WHERE last_name = &apos;Taylor&apos;
+    -&gt; );
++------------+-----------+---------------+
+| first_name | last_name | department_id |
++------------+-----------+---------------+
+| Ethan      | Taylor    |             5 |
+| Lucas      | Martinez  |             5 |
+| Emily      | Wilson    |             5 |
++------------+-----------+---------------+
+3 rows in set (0.00 sec)
+
+mysql&gt; SELECT j.job_title, e.first_name, e.last_name, (j.max_salary - e.salary) AS salary_difference
+    -&gt; FROM employees e
+    -&gt; JOIN jobs j ON e.job_id = j.job_id;
++----------------------+------------+-----------+-------------------+
+| job_title            | first_name | last_name | salary_difference |
++----------------------+------------+-----------+-------------------+
+| Software Engineer    | Zachary    | Johnson   |          45000.00 |
+| Software Engineer    | Michael    | Smith     |          38000.00 |
+| HR Manager           | David      | Brown     |           5000.00 |
+| Financial Analyst    | Sophia     | Lee       |           8000.00 |
+| Financial Analyst    | Emma       | Williams  |           2000.00 |
+| Marketing Executive  | Daniel     | Miller    |          22000.00 |
+| Marketing Executive  | Olivia     | Davis     |          18000.00 |
+| Sales Representative | Ethan      | Taylor    |          21000.00 |
+| Sales Representative | Lucas      | Martinez  |          17000.00 |
+| Sales Representative | Emily      | Wilson    |          13000.00 |
++----------------------+------------+-----------+-------------------+
+10 rows in set (0.00 sec)
+
+mysql&gt; SELECT d.department_name, AVG(e.salary) AS avg_salary, COUNT(e.employee_id) AS num_employees
+    -&gt; FROM employees e
+    -&gt; JOIN departments d ON e.department_id = d.department_id
+    -&gt; GROUP BY d.department_name;
++-----------------+---------------+---------------+
+| department_name | avg_salary    | num_employees |
++-----------------+---------------+---------------+
+| IT              |  78500.000000 |             2 |
+| HR              |  95000.000000 |             1 |
+| Finance         | 105000.000000 |             2 |
+| Marketing       |  70000.000000 |             2 |
+| Sales           |  63000.000000 |             3 |
++-----------------+---------------+---------------+
+5 rows in set (0.00 sec)</pre>
